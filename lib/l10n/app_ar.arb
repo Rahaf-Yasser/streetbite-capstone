@@ -1,0 +1,57 @@
+{
+  "@@locale": "ar",
+  "appTitle": "ستريت بايت",
+  "deliverTo": "التوصيل إلى",
+  "currentLocation": "الموقع الحالي",
+  "searchHint": "طعام، بقالة، إلخ.",
+  "categoriesTitle": "التصنيفات",
+  "popularTitle": "الأكثر شهرة قريبًا منك",
+  "featuredTitle": "وجبات مميزة",
+  "hotOffersTitle": "عروض ساخنة",
+  "viewAll": "عرض الكل",
+  "addedToCart": "تمت الإضافة إلى السلة",
+  "cartSummary": "السلة: {count} عناصر",
+  "@cartSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadingMeals": "جارٍ تحميل الوجبات اللذيذة...",
+  "loadMealsError": "تعذر تحميل الوجبات",
+  "retry": "إعادة المحاولة",
+  "noMeals": "لا توجد وجبات متاحة حاليًا",
+  "discountOff": "{percent}٪ خصم",
+  "@discountOff": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "deliveryMinutes": "{minutes} دقيقة",
+  "@deliveryMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "nearbyVendors": "بائعون قريبون",
+  "vendorRating": "التقييم",
+  "vendorCuisine": "نوع المطبخ",
+  "vendorCity": "المدينة",
+  "loadingVendors": "جارٍ تحميل البائعين...",
+  "loadVendorsError": "تعذر تحميل البائعين",
+  "mealDetails": "تفاصيل الوجبة",
+  "categoryLabel": "التصنيف",
+  "areaLabel": "بلد المنشأ",
+  "instructionsLabel": "التعليمات",
+  "comingSoonFullDetails": "التفاصيل الكاملة ستتوفر قريبًا",
+  "toggleTheme": "تبديل السمة",
+  "currencySymbol": "$",
+  "selectLanguage": "اختر اللغة",
+  "english": "الإنجليزية",
+  "arabic": "العربية"
+}

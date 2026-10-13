@@ -1,0 +1,87 @@
+{
+  "@@locale": "en",
+  "appTitle": "StreetBite",
+  "@appTitle": {},
+  "deliverTo": "Deliver to",
+  "@deliverTo": {},
+  "currentLocation": "Current Location",
+  "@currentLocation": {},
+  "searchHint": "Food, groceries, etc.",
+  "@searchHint": {},
+  "categoriesTitle": "Categories",
+  "@categoriesTitle": {},
+  "popularTitle": "Popular Near You",
+  "@popularTitle": {},
+  "featuredTitle": "Featured Meals",
+  "@featuredTitle": {},
+  "hotOffersTitle": "Hot Offers",
+  "@hotOffersTitle": {},
+  "viewAll": "View all",
+  "@viewAll": {},
+  "addedToCart": "Added to cart",
+  "@addedToCart": {},
+  "cartSummary": "Cart: {count} items",
+  "@cartSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadingMeals": "Loading delicious meals...",
+  "@loadingMeals": {},
+  "loadMealsError": "Failed to load meals",
+  "@loadMealsError": {},
+  "retry": "Retry",
+  "@retry": {},
+  "noMeals": "No meals available right now",
+  "@noMeals": {},
+  "discountOff": "{percent}% OFF",
+  "@discountOff": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "deliveryMinutes": "{minutes} min",
+  "@deliveryMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "nearbyVendors": "Nearby Vendors",
+  "@nearbyVendors": {},
+  "vendorRating": "Rating",
+  "@vendorRating": {},
+  "vendorCuisine": "Cuisine",
+  "@vendorCuisine": {},
+  "vendorCity": "City",
+  "@vendorCity": {},
+  "loadingVendors": "Loading vendors...",
+  "@loadingVendors": {},
+  "loadVendorsError": "Failed to load vendors",
+  "@loadVendorsError": {},
+  "mealDetails": "Meal Details",
+  "@mealDetails": {},
+  "categoryLabel": "Category",
+  "@categoryLabel": {},
+  "areaLabel": "Origin",
+  "@areaLabel": {},
+  "instructionsLabel": "Instructions",
+  "@instructionsLabel": {},
+  "comingSoonFullDetails": "Full details will be available soon",
+  "@comingSoonFullDetails": {},
+  "toggleTheme": "Toggle theme",
+  "@toggleTheme": {},
+  "currencySymbol": "$",
+  "@currencySymbol": {},
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {},
+  "english": "English",
+  "@english": {},
+  "arabic": "Arabic",
+  "@arabic": {}
+}
