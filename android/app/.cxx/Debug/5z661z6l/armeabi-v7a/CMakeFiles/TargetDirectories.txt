@@ -1,0 +1,2 @@
+/Users/ar/development/streetbite-capstone/flutter_app/android/app/.cxx/Debug/5z661z6l/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/ar/development/streetbite-capstone/flutter_app/android/app/.cxx/Debug/5z661z6l/armeabi-v7a/CMakeFiles/rebuild_cache.dir
