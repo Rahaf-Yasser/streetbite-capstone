@@ -1,0 +1,292 @@
+{
+  "@@locale": "en",
+  "appName": "StreetBite",
+  "welcomeHeadline": "Food and groceries delivered to you",
+  "welcomeSubtext": "Create an account or log in to get started",
+  "signUpButton": "Sign Up",
+  "logInButton": "Log In",
+  "signUpTitle": "Create account",
+  "logInTitle": "Welcome back",
+  "languageToggle": "العربية",
+  "fullNameLabel": "Full name",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "confirmPasswordLabel": "Confirm password",
+  "fullNameRequired": "Please enter your full name",
+  "fullNameCapital": "The name must start with a capital letter",
+  "emailRequired": "Please enter your email",
+  "emailInvalid": "Please enter a valid email",
+  "passwordRequired": "Please enter a password",
+  "passwordTooShort": "Password must be at least 6 characters",
+  "confirmPasswordRequired": "Please confirm your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "signUpSuccessTitle": "Account created",
+  "signUpSuccessMessage": "Your account was created successfully",
+  "continueButton": "Continue",
+  "homeWelcome": "Welcome, {name}!",
+  "@homeWelcome": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profileTooltip": "Profile",
+  "biometricReason": "Verify your fingerprint to open your profile",
+  "biometricFailed": "Fingerprint not recognized. Please try again.",
+  "biometricNotAvailable": "This device doesn't support fingerprint authentication.",
+  "biometricNotEnrolled": "No fingerprint is set up on this device. Add one in your phone settings.",
+  "biometricLockedOut": "Too many attempts. Please try again later.",
+  "biometricError": "Something went wrong with fingerprint authentication. Please try again.",
+  "deviceInfoTitle": "Device",
+  "deviceModelLabel": "Model",
+  "osVersionLabel": "OS version",
+  "profileLoadError": "We couldn't load your profile. Please try again.",
+  "deviceInfoError": "We couldn't read your device details.",
+  "retryButton": "Retry",
+  "settingsLabel": "Settings",
+  "contactUsLabel": "Contact us",
+  "helpCenterLabel": "Help center",
+  "languageLabel": "Language",
+  "comingSoonMessage": "This section is coming soon.",
+  "okButton": "OK",
+  "logOutLabel": "Log out",
+  "logOutConfirmMessage": "Are you sure you want to log out?",
+  "cancelButton": "Cancel",
+  "navHome": "Home",
+  "navBrowse": "Browse",
+  "navOrders": "Orders",
+  "navProfile": "Profile",
+  "changePhotoTooltip": "Change photo",
+  "photoPickError": "We couldn't open your gallery. Please try again.",
+  "photoUpdateError": "We couldn't update your photo. Please try again.",
+  "favouritesTitle": "Favourites",
+  "orderHistoryTitle": "Order history",
+  "noFavourites": "You have no favourites yet.",
+  "noOrders": "You have no orders yet.",
+  "sectionLoadError": "We couldn't load this section. Please try again.",
+  "orderTotal": "Total: {amount}",
+  "@orderTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "orderStatusPending": "Pending",
+  "orderStatusDelivered": "Delivered",
+  "orderStatusCancelled": "Cancelled",
+
+  "deliverTo": "Deliver to",
+  "currentLocation": "Current Location",
+  "searchHint": "Food, groceries, etc.",
+  "categoriesTitle": "Categories",
+  "popularTitle": "Popular Near You",
+  "featuredTitle": "Featured Meals",
+  "hotOffersTitle": "Hot Offers",
+  "viewAll": "View all",
+  "cartSummary": "Cart: {count} items",
+  "@cartSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadingMeals": "Loading delicious meals...",
+  "loadMealsError": "Failed to load meals",
+  "retry": "Retry",
+  "noMeals": "No meals available right now",
+  "noSearchResults": "No meals match your search",
+  "discountOff": "{percent}% OFF",
+  "@discountOff": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "deliveryMinutes": "{minutes} min",
+  "@deliveryMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "nearbyVendors": "Nearby Vendors",
+  "vendorRating": "Rating",
+  "vendorCuisine": "Cuisine",
+  "vendorCity": "City",
+  "loadingVendors": "Loading vendors...",
+  "loadVendorsError": "Failed to load vendors",
+  "mealDetails": "Meal Details",
+  "categoryLabel": "Category",
+  "areaLabel": "Origin",
+  "instructionsLabel": "Instructions",
+  "comingSoonFullDetails": "Full details will be available soon",
+  "toggleTheme": "Toggle theme",
+  "currencySymbol": "$",
+  "selectLanguage": "Select Language",
+  "english": "English",
+  "arabic": "Arabic" ,
+
+  
+  "addedToCart": "{mealName} added to cart!",
+  "@addedToCart": {
+    "description": "Snackbar after adding a meal to cart",
+    "placeholders": {
+      "mealName": { "type": "String" }
+    }
+  },
+  "viewCart": "View cart",
+  "@viewCart": {
+    "description": "Snackbar action to open cart"
+  },
+  "preparationInstructions": "Preparation Instructions",
+  "@preparationInstructions": {
+    "description": "Section title for meal instructions"
+  },
+  "noInstructionsAvailable": "No detailed instructions available.",
+  "@noInstructionsAvailable": {
+    "description": "Fallback when meal has no instructions"
+  },
+  "addToCart": "Add to Cart",
+  "@addToCart": {
+    "description": "Button to add meal to cart"
+  },
+  "discountPercentOff": "{percent}% OFF",
+  "@discountPercentOff": {
+    "description": "Discount badge",
+    "placeholders": {
+      "percent": { "type": "int" }
+    }
+  },
+  "yourCart": "Your Cart",
+  "@yourCart": {
+    "description": "Cart screen app bar title"
+  },
+  "clearCart": "Clear Cart",
+  "@clearCart": {
+    "description": "Tooltip and dialog title for clearing cart"
+  },
+  "paymentMethod": "Payment Method",
+  "@paymentMethod": {
+    "description": "Payment method section title"
+  },
+  "cashOnDelivery": "Cash on Delivery",
+  "@cashOnDelivery": {
+    "description": "Cash on delivery option"
+  },
+  "payWhenFoodArrives": "Pay when your food arrives",
+  "@payWhenFoodArrives": {
+    "description": "Cash on delivery subtitle"
+  },
+  "creditDebitCard": "Credit / Debit Card",
+  "@creditDebitCard": {
+    "description": "Card payment option"
+  },
+  "fastSecureOnlinePayment": "Fast & secure online payment",
+  "@fastSecureOnlinePayment": {
+    "description": "Card payment subtitle"
+  },
+  "orderSummary": "Order Summary",
+  "@orderSummary": {
+    "description": "Order summary section title"
+  },
+  "subtotal": "Subtotal",
+  "@subtotal": {
+    "description": "Subtotal label"
+  },
+  "deliveryFee": "Delivery Fee",
+  "@deliveryFee": {
+    "description": "Delivery fee label"
+  },
+  "totalAmount": "Total Amount",
+  "@totalAmount": {
+    "description": "Total amount label"
+  },
+  "placeOrderWithTotal": "Place Order • {total}",
+  "@placeOrderWithTotal": {
+    "description": "Checkout button with total",
+    "placeholders": {
+      "total": { "type": "String" }
+    }
+  },
+  "yourCartIsEmpty": "Your cart is empty",
+  "@yourCartIsEmpty": {
+    "description": "Empty cart title"
+  },
+  "emptyCartMessage": "Looks like you haven't added any street food to your cart yet.",
+  "@emptyCartMessage": {
+    "description": "Empty cart description"
+  },
+  "exploreMenu": "Explore Menu",
+  "@exploreMenu": {
+    "description": "Button to go back and explore menu"
+  },
+  "clearCartConfirmation": "Are you sure you want to remove all items from your cart?",
+  "@clearCartConfirmation": {
+    "description": "Clear cart confirmation message"
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  "clear": "Clear",
+  "@clear": {
+    "description": "Clear button"
+  },
+  "orderPlacedSuccessfully": "Order placed successfully using {paymentMethod}!",
+  "@orderPlacedSuccessfully": {
+    "description": "Checkout success snackbar",
+    "placeholders": {
+      "paymentMethod": { "type": "String" }
+    }
+  },
+  "priceEach": "{price} each",
+  "@priceEach": {
+    "description": "Unit price per meal",
+    "placeholders": {
+      "price": { "type": "String" }
+    }
+  }
+  ,
+  "myOrders": "My Orders",
+  "@myOrders": { "description": "Orders screen app bar title" },
+  "noOrdersYet": "No orders yet",
+  "@noOrdersYet": { "description": "Empty orders title" },
+  "noOrdersMessage": "You haven't placed any orders yet. Start exploring the menu!",
+  "@noOrdersMessage": { "description": "Empty orders description" },
+  "startOrdering": "Start Ordering",
+  "@startOrdering": { "description": "Button to go back and order" },
+  "orderNumber": "Order #{id}",
+  "@orderNumber": {
+    "description": "Order number label",
+    "placeholders": { "id": { "type": "String" } }
+  },
+  "itemsCount": "{count, plural, =0{No items} =1{1 item} other{{count} items}}",
+  "@itemsCount": {
+    "description": "Number of items in an order",
+    "placeholders": { "count": { "type": "int" } }
+  },
+  "statusPending": "Pending",
+  "@statusPending": { "description": "Pending order status" },
+  "statusPreparing": "Preparing",
+  "@statusPreparing": { "description": "Preparing order status" },
+  "statusOnTheWay": "On the way",
+  "@statusOnTheWay": { "description": "Out for delivery status" },
+  "statusDelivered": "Delivered",
+  "@statusDelivered": { "description": "Delivered order status" },
+  "statusCancelled": "Cancelled",
+  "@statusCancelled": { "description": "Cancelled order status" },
+  "cancelOrder": "Cancel Order",
+  "@cancelOrder": { "description": "Cancel order button and dialog title" },
+  "cancelOrderConfirmation": "Are you sure you want to cancel this order?",
+  "@cancelOrderConfirmation": { "description": "Cancel order confirmation" },
+  "yes": "Yes",
+  "@yes": { "description": "Yes button" },
+  "no": "No",
+  "@no": { "description": "No button" }
+
+}
