@@ -1,0 +1,134 @@
+{
+  "@@locale": "en",
+  "appName": "StreetBite",
+  "welcomeHeadline": "Food and groceries delivered to you",
+  "welcomeSubtext": "Create an account or log in to get started",
+  "signUpButton": "Sign Up",
+  "logInButton": "Log In",
+  "signUpTitle": "Create account",
+  "logInTitle": "Welcome back",
+  "languageToggle": "العربية",
+  "fullNameLabel": "Full name",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "confirmPasswordLabel": "Confirm password",
+  "fullNameRequired": "Please enter your full name",
+  "fullNameCapital": "The name must start with a capital letter",
+  "emailRequired": "Please enter your email",
+  "emailInvalid": "Please enter a valid email",
+  "passwordRequired": "Please enter a password",
+  "passwordTooShort": "Password must be at least 6 characters",
+  "confirmPasswordRequired": "Please confirm your password",
+  "passwordsDoNotMatch": "Passwords do not match",
+  "signUpSuccessTitle": "Account created",
+  "signUpSuccessMessage": "Your account was created successfully",
+  "continueButton": "Continue",
+  "homeWelcome": "Welcome, {name}!",
+  "@homeWelcome": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "profileTooltip": "Profile",
+  "biometricReason": "Verify your fingerprint to open your profile",
+  "biometricFailed": "Fingerprint not recognized. Please try again.",
+  "biometricNotAvailable": "This device doesn't support fingerprint authentication.",
+  "biometricNotEnrolled": "No fingerprint is set up on this device. Add one in your phone settings.",
+  "biometricLockedOut": "Too many attempts. Please try again later.",
+  "biometricError": "Something went wrong with fingerprint authentication. Please try again.",
+  "deviceInfoTitle": "Device",
+  "deviceModelLabel": "Model",
+  "osVersionLabel": "OS version",
+  "profileLoadError": "We couldn't load your profile. Please try again.",
+  "deviceInfoError": "We couldn't read your device details.",
+  "retryButton": "Retry",
+  "settingsLabel": "Settings",
+  "contactUsLabel": "Contact us",
+  "helpCenterLabel": "Help center",
+  "languageLabel": "Language",
+  "comingSoonMessage": "This section is coming soon.",
+  "okButton": "OK",
+  "logOutLabel": "Log out",
+  "logOutConfirmMessage": "Are you sure you want to log out?",
+  "cancelButton": "Cancel",
+  "navHome": "Home",
+  "navBrowse": "Browse",
+  "navOrders": "Orders",
+  "navProfile": "Profile",
+  "changePhotoTooltip": "Change photo",
+  "photoPickError": "We couldn't open your gallery. Please try again.",
+  "photoUpdateError": "We couldn't update your photo. Please try again.",
+  "favouritesTitle": "Favourites",
+  "orderHistoryTitle": "Order history",
+  "noFavourites": "You have no favourites yet.",
+  "noOrders": "You have no orders yet.",
+  "sectionLoadError": "We couldn't load this section. Please try again.",
+  "orderTotal": "Total: {amount}",
+  "@orderTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "orderStatusPending": "Pending",
+  "orderStatusDelivered": "Delivered",
+  "orderStatusCancelled": "Cancelled",
+
+  "deliverTo": "Deliver to",
+  "currentLocation": "Current Location",
+  "searchHint": "Food, groceries, etc.",
+  "categoriesTitle": "Categories",
+  "popularTitle": "Popular Near You",
+  "featuredTitle": "Featured Meals",
+  "hotOffersTitle": "Hot Offers",
+  "viewAll": "View all",
+  "addedToCart": "Added to cart",
+  "cartSummary": "Cart: {count} items",
+  "@cartSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "loadingMeals": "Loading delicious meals...",
+  "loadMealsError": "Failed to load meals",
+  "retry": "Retry",
+  "noMeals": "No meals available right now",
+  "noSearchResults": "No meals match your search",
+  "discountOff": "{percent}% OFF",
+  "@discountOff": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "deliveryMinutes": "{minutes} min",
+  "@deliveryMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "nearbyVendors": "Nearby Vendors",
+  "vendorRating": "Rating",
+  "vendorCuisine": "Cuisine",
+  "vendorCity": "City",
+  "loadingVendors": "Loading vendors...",
+  "loadVendorsError": "Failed to load vendors",
+  "mealDetails": "Meal Details",
+  "categoryLabel": "Category",
+  "areaLabel": "Origin",
+  "instructionsLabel": "Instructions",
+  "comingSoonFullDetails": "Full details will be available soon",
+  "toggleTheme": "Toggle theme",
+  "currencySymbol": "$",
+  "selectLanguage": "Select Language",
+  "english": "English",
+  "arabic": "Arabic"
+}

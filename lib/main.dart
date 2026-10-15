@@ -1,110 +1,129 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:streetbite/core/theme/theme.dart';
-import 'package:streetbite/core/theme/util.dart';
-import 'package:streetbite/presentation/screens/intro_colors_screen.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_app/core/theme/theme.dart';
+import 'package:flutter_app/core/theme/util.dart';
+import 'package:flutter_app/domain/entities/meal.dart';
+import 'package:flutter_app/injection.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'package:flutter_app/presentation/blocs/auth/auth_cubit.dart';
+import 'package:flutter_app/presentation/blocs/locale/locale_cubit.dart';
+import 'package:flutter_app/presentation/blocs/cart/cart_bloc.dart';
+import 'package:flutter_app/presentation/blocs/theme/theme_bloc.dart';
+import 'package:flutter_app/presentation/blocs/theme/theme_state.dart';
+
+import 'package:flutter_app/presentation/screens/splash_screen.dart';
+import 'package:flutter_app/presentation/screens/main_shell.dart';
+import 'package:flutter_app/presentation/screens/meal_details_screen.dart';
+import 'package:flutter_app/presentation/screens/vendor_map_screen.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
+  await setupDependencies();
+
+  // Read the saved language before the first frame, so the app never
+  // flashes English before switching to Arabic.
+  await getIt<LocaleCubit>().loadSavedLocale();
+
+  runApp(const StreetBiteApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    final brightness = View.of(context).platformDispatcher.platformBrightness;
-
-    // Retrieves the default theme for the platform
-    //TextTheme textTheme = Theme.of(context).textTheme;
-
-    // Use with Google Fonts package to use downloadable fonts
-    TextTheme textTheme = createTextTheme(context, "Inter", "Inter");
-
-    MaterialTheme theme = MaterialTheme(textTheme);
-    return MaterialApp(
-        title: 'StreetBite',
-        theme: brightness == Brightness.light ? theme.light() : theme.dark(),
-        // home: const MyHomePage(title: 'StreetBite'),
-        home: const IntroColorsScreen(),
-        debugShowCheckedModeBanner: false);
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class StreetBiteApp extends StatelessWidget {
+  const StreetBiteApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            CircleAvatar(
-              backgroundColor: Theme.of(context).primaryColor,
-            ),
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    final TextTheme textTheme = createTextTheme(
+      context,
+      'Inter',
+      'Inter',
     );
+
+    final MaterialTheme materialTheme = MaterialTheme(textTheme);
+
+    return MultiBlocProvider(
+      providers: [
+        // Authentication state
+        BlocProvider<AuthCubit>(
+          create: (_) => getIt<AuthCubit>(),
+        ),
+
+        // App language (the single language system)
+        BlocProvider<LocaleCubit>.value(
+          value: getIt<LocaleCubit>(),
+        ),
+
+        // Theme management
+        BlocProvider<ThemeBloc>(
+          create: (_) => ThemeBloc(),
+        ),
+
+        // Cart
+        BlocProvider<CartBloc>(
+          create: (_) => CartBloc(),
+        ),
+      ],
+      child: BlocBuilder<LocaleCubit, Locale>(
+        builder: (context, locale) {
+          return BlocBuilder<ThemeBloc, ThemeState>(
+            builder: (context, themeState) {
+              return MaterialApp(
+                title: 'StreetBite',
+                debugShowCheckedModeBanner: false,
+
+                // Localization
+                locale: locale,
+                onGenerateTitle: (context) =>
+                    AppLocalizations.of(context)?.appName ?? 'StreetBite',
+                localizationsDelegates:
+                    AppLocalizations.localizationsDelegates,
+                supportedLocales: AppLocalizations.supportedLocales,
+
+                // Theme switching
+                theme: materialTheme.light(),
+                darkTheme: materialTheme.dark(),
+                themeMode: themeState.themeMode,
+
+                // Named routes
+                onGenerateRoute: _onGenerateRoute,
+
+                // Authentication flow starts at the splash screen
+                home: const SplashScreen(),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  Route<dynamic> _onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/home':
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => const MainShell(),
+        );
+
+      case '/meal-details':
+        final Meal meal = settings.arguments as Meal;
+
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => MealDetailsScreen(meal: meal),
+        );
+
+      case '/vendor-map':
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => const VendorMapScreen(),
+        );
+
+      default:
+        return MaterialPageRoute<dynamic>(
+          builder: (_) => const MainShell(),
+        );
+    }
   }
 }
