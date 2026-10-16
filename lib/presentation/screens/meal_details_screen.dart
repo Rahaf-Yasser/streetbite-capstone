@@ -5,6 +5,7 @@ import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/presentation/blocs/cart/cart_bloc.dart';
 import 'package:flutter_app/presentation/blocs/cart/cart_event.dart';
 import 'package:flutter_app/presentation/blocs/cart/cart_state.dart';
+import 'package:flutter_app/data/datasources/favourites_remote_source.dart';
 
 class MealDetailsScreen extends StatelessWidget {
   final Meal meal;
@@ -30,7 +31,7 @@ class MealDetailsScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             content: Text(
-              l10n.addedToCart(meal.name),
+              l10n.mealAddedToCart(meal.name),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: colorScheme.onPrimary,
                 fontWeight: FontWeight.w600,
@@ -103,19 +104,43 @@ class MealDetailsScreen extends StatelessWidget {
                 ),
               ),
               actions: [
-                Container(
-                  margin: const EdgeInsets.only(right: 12),
-                  decoration: BoxDecoration(
-                    color: colorScheme.surface,
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.favorite_border),
-                    color: colorScheme.error,
-                    onPressed: () {
-                      // Save to favourites
-                    },
-                  ),
+                StreamBuilder<bool>(
+                  stream: FavouritesRemoteSource().isFavourite(meal.id.toString()),
+                  builder: (context, snapshot) {
+                    final isFav = snapshot.data ?? false;
+                    return Container(
+                      margin: const EdgeInsets.only(right: 12),
+                      decoration: BoxDecoration(
+                        color: colorScheme.surface,
+                        shape: BoxShape.circle,
+                      ),
+                      child: IconButton(
+                        icon: Icon(isFav ? Icons.favorite : Icons.favorite_border),
+                        color: colorScheme.error,
+                        onPressed: () async {
+                          final source = FavouritesRemoteSource();
+                          final messenger = ScaffoldMessenger.of(context);
+                          try {
+                            if (isFav) {
+                              await source.remove(meal.id.toString());
+                              messenger.showSnackBar(
+                                SnackBar(content: Text(l10n.removedFromFavourites)),
+                              );
+                            } else {
+                              await source.add(meal);
+                              messenger.showSnackBar(
+                                SnackBar(content: Text(l10n.addedToFavourites)),
+                              );
+                            }
+                          } catch (_) {
+                            messenger.showSnackBar(
+                              SnackBar(content: Text(l10n.favouriteError)),
+                            );
+                          }
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

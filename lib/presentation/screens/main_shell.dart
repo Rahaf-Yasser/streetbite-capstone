@@ -26,7 +26,10 @@ class _MainShellState extends State<MainShell> {
       case AppBottomNavBar.browseIndex:
         return const BrowseScreen();
       case AppBottomNavBar.ordersIndex:
-        return const OrdersScreen();
+        return OrdersScreen(
+          onStartOrdering: () =>
+              setState(() => _index = AppBottomNavBar.homeIndex),
+        );
       case AppBottomNavBar.profileIndex:
         return const ProfileScreen();
       default:

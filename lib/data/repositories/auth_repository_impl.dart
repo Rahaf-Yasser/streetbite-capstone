@@ -1,5 +1,5 @@
 import 'package:flutter_app/data/datasources/auth_remote_datasource.dart';
-import 'package:flutter_app/data/models/user_model.dart';
+import 'package:flutter_app/domain/entities/user_entity.dart';
 import 'package:flutter_app/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -8,10 +8,10 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._dataSource);
 
   @override
-  Future<UserModel?> getCurrentUser() async => _dataSource.currentUser;
+  Future<UserEntity?> getCurrentUser() async => _dataSource.currentUser;
 
   @override
-  Future<UserModel> signUp({
+  Future<UserEntity> signUp({
     required String fullName,
     required String email,
     required String password,
@@ -19,7 +19,7 @@ class AuthRepositoryImpl implements AuthRepository {
       _dataSource.signUp(fullName: fullName, email: email, password: password);
 
   @override
-  Future<UserModel> logIn({
+  Future<UserEntity> logIn({
     required String email,
     required String password,
   }) =>

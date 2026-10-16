@@ -5,11 +5,15 @@ import 'package:flutter_app/l10n/app_localizations.dart';
 String orderStatusLabel(String status, AppLocalizations l10n) {
   switch (status) {
     case 'pending':
-      return l10n.orderStatusPending;
+      return l10n.statusPending;
+    case 'preparing':
+      return l10n.statusPreparing;
+    case 'onTheWay':
+      return l10n.statusOnTheWay;
     case 'delivered':
-      return l10n.orderStatusDelivered;
+      return l10n.statusDelivered;
     case 'cancelled':
-      return l10n.orderStatusCancelled;
+      return l10n.statusCancelled;
     default:
       return status;
   }
