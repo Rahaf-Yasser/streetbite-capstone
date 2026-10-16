@@ -1,5 +1,10 @@
+// ignore: unused_import
+import 'package:intl/intl.dart' as intl;
 import 'app_localizations.dart';
 
+// ignore_for_file: type=lint
+
+/// The translations for English (`en`).
 class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
@@ -73,11 +78,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get continueButton => 'Continue';
 
   @override
-  String homeWelcome(String name) {
-    return 'Welcome, $name!';
-  }
-
-  @override
   String get profileTooltip => 'Profile';
 
   @override
@@ -114,9 +114,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deviceInfoError => 'We couldn\'t read your device details.';
 
   @override
-  String get retryButton => 'Retry';
-
-  @override
   String get settingsLabel => 'Settings';
 
   @override
@@ -139,9 +136,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logOutConfirmMessage => 'Are you sure you want to log out?';
-
-  @override
-  String get cancelButton => 'Cancel';
 
   @override
   String get navHome => 'Home';
@@ -185,15 +179,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get orderStatusPending => 'Pending';
-
-  @override
-  String get orderStatusDelivered => 'Delivered';
-
-  @override
-  String get orderStatusCancelled => 'Cancelled';
-
-  @override
   String get deliverTo => 'Deliver to';
 
   @override
@@ -201,9 +186,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchHint => 'Food, groceries, etc.';
-
-  @override
-  String get categoriesTitle => 'Categories';
 
   @override
   String get popularTitle => 'Popular Near You';
@@ -218,8 +200,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get viewAll => 'View all';
 
   @override
+  String get addedToCart => 'Added to cart';
+
+  @override
   String cartSummary(int count) {
-    return 'Cart: $count items';
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Cart: $count items',
+      one: 'Cart: 1 item',
+      zero: 'Cart is empty',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -236,11 +228,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noSearchResults => 'No meals match your search';
-
-  @override
-  String discountOff(int percent) {
-    return '$percent% OFF';
-  }
 
   @override
   String deliveryMinutes(int minutes) {
@@ -266,37 +253,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loadVendorsError => 'Failed to load vendors';
 
   @override
-  String get mealDetails => 'Meal Details';
-
-  @override
-  String get categoryLabel => 'Category';
-
-  @override
-  String get areaLabel => 'Origin';
-
-  @override
-  String get instructionsLabel => 'Instructions';
-
-  @override
-  String get comingSoonFullDetails => 'Full details will be available soon';
-
-  @override
   String get toggleTheme => 'Toggle theme';
 
   @override
   String get currencySymbol => '\$';
 
   @override
-  String get selectLanguage => 'Select Language';
-
-  @override
-  String get english => 'English';
-
-  @override
-  String get arabic => 'Arabic';
-
-  @override
-  String addedToCart(String mealName) {
+  String mealAddedToCart(String mealName) {
     return '$mealName added to cart!';
   }
 
@@ -390,6 +353,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noOrdersYet => 'No orders yet';
 
   @override
+  String get orderSaveError => 'We couldn\'t place your order. Please try again.';
+
+  @override
   String get noOrdersMessage => 'You haven\'t placed any orders yet. Start exploring the menu!';
 
   @override
@@ -402,13 +368,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String itemsCount(int count) {
-    if (count == 0) {
-      return 'No items';
-    } else if (count == 1) {
-      return '1 item';
-    } else {
-      return '$count items';
-    }
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count items',
+      one: '1 item',
+      zero: 'No items',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -437,4 +404,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get no => 'No';
+
+  @override
+  String get addedToFavourites => 'Saved to favourites';
+
+  @override
+  String get removedFromFavourites => 'Removed from favourites';
+
+  @override
+  String get favouriteError => 'Couldn\'t update favourites. Please try again.';
+
+  @override
+  String itemQuantity(int count) {
+    return '×$count';
+  }
+
+  @override
+  String get authNetworkError => 'No internet connection. Please check it and try again.';
+
+  @override
+  String get authUnknownError => 'Something went wrong. Please try again.';
 }

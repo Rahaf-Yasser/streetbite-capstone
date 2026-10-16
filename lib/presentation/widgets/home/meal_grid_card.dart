@@ -108,7 +108,7 @@ class MealGridCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
-                            context.l10n.discountOff(meal.discountPercent),
+                            context.l10n.discountPercentOff(meal.discountPercent),
                             style: theme.textTheme.labelSmall?.copyWith(
                               color: Colors.black,
                               fontWeight: FontWeight.w800,
@@ -151,7 +151,7 @@ class _AddToCartChip extends StatelessWidget {
           context.read<CartBloc>().add(AddToCartEvent(meal));
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(context.l10n.addedToCart(meal.name)),
+              content: Text(context.l10n.addedToCart),
               duration: const Duration(seconds: 1),
               behavior: SnackBarBehavior.floating,
             ),

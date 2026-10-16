@@ -82,7 +82,7 @@ class MealDetailsScreen extends StatelessWidget {
                           colors: [
                             Colors.black38,
                             Colors.transparent,
-                            Colors.black.withValues(alpha: 0.8),
+                            Colors.black.withOpacity(0.8),
                           ],
                           stops: const [0.0, 0.5, 1.0],
                         ),
