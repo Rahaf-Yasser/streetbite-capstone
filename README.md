@@ -318,7 +318,7 @@ flutter test --coverage
 The suite runs green across both layers, confirming that every use case, entity, and screen under test behaves as expected.
 
 <p align="center">
-  <img src="Screenshots/all tests passed.png" alt="Flutter test output showing all unit and widget tests passing" width="600" />
+  <img src="Screenshots/all tests passed.jpeg" alt="Flutter test output showing all unit and widget tests passing" width="600" />
 </p>
 <p align="center"><sub>Full suite passing — 45 unit tests and 27 widget tests</sub></p>
 
