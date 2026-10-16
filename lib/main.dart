@@ -1,5 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/presentation/blocs/favourites/favourites_cubit.dart';
+import 'package:flutter_app/presentation/blocs/orders/orders_bloc.dart';
+import 'package:flutter_app/presentation/screens/cart_screen.dart';
+import 'package:flutter_app/presentation/screens/orders_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/core/theme/theme.dart';
@@ -7,19 +11,16 @@ import 'package:flutter_app/core/theme/util.dart';
 import 'package:flutter_app/domain/entities/meal.dart';
 import 'package:flutter_app/injection.dart';
 
-import 'package:flutter_app/data/datasources/orders_cloud_datasource.dart';
 import 'package:flutter_app/presentation/blocs/auth/auth_cubit.dart';
 import 'package:flutter_app/presentation/blocs/locale/locale_cubit.dart';
 import 'package:flutter_app/presentation/blocs/cart/cart_bloc.dart';
-import 'package:flutter_app/presentation/blocs/favourites/favourites_cubit.dart';
-import 'package:flutter_app/presentation/blocs/orders/orders_bloc.dart';
 import 'package:flutter_app/presentation/blocs/theme/theme_bloc.dart';
 import 'package:flutter_app/presentation/blocs/theme/theme_state.dart';
-import 'package:flutter_app/presentation/screens/cart_screen.dart';
+
+import 'package:flutter_app/presentation/screens/profile_screen.dart';
+import 'package:flutter_app/presentation/screens/splash_screen.dart';
 import 'package:flutter_app/presentation/screens/main_shell.dart';
 import 'package:flutter_app/presentation/screens/meal_details_screen.dart';
-import 'package:flutter_app/presentation/screens/orders_screen.dart';
-import 'package:flutter_app/presentation/screens/splash_screen.dart';
 import 'package:flutter_app/presentation/screens/vendor_map_screen.dart';
 
 Future<void> main() async {
@@ -70,13 +71,8 @@ class StreetBiteApp extends StatelessWidget {
         BlocProvider<CartBloc>(
           create: (_) => CartBloc(),
         ),
+            BlocProvider(create: (_) => OrdersBloc()),
 
-        // Orders (read by CartScreen when placing an order)
-        BlocProvider<OrdersBloc>(
-          create: (_) => OrdersBloc(getIt<OrdersCloudDataSource>()),
-        ),
-
-        // Favourites
         BlocProvider<FavouritesCubit>(
           create: (_) => getIt<FavouritesCubit>(),
         ),
@@ -91,6 +87,8 @@ class StreetBiteApp extends StatelessWidget {
 
                 // Localization
                 locale: locale,
+                onGenerateTitle: (context) =>
+                    AppLocalizations.of(context)?.appName ?? 'StreetBite',
                 localizationsDelegates:
                     AppLocalizations.localizationsDelegates,
                 supportedLocales: AppLocalizations.supportedLocales,
@@ -122,24 +120,24 @@ class StreetBiteApp extends StatelessWidget {
 
       case '/meal-details':
         final Meal meal = settings.arguments as Meal;
+
         return MaterialPageRoute<dynamic>(
           builder: (_) => MealDetailsScreen(meal: meal),
         );
 
       case '/cart':
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => const CartScreen(),
-        );
-
-      case '/orders':
-        return MaterialPageRoute<dynamic>(
-          builder: (_) => const OrdersScreen(),
-        );
-
+      return MaterialPageRoute<dynamic>(
+        builder: (_) => const CartScreen(),
+      );
+      
       case '/vendor-map':
         return MaterialPageRoute<dynamic>(
           builder: (_) => const VendorMapScreen(),
         );
+      case  '/orders':        return MaterialPageRoute<dynamic>(
+          builder:  (_) => const OrdersScreen(),
+      );
+ 
 
       default:
         return MaterialPageRoute<dynamic>(

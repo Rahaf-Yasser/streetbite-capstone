@@ -62,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(height: 12),
                       ElevatedButton(
                         onPressed: () => context.read<ProfileCubit>().load(),
-                        child: Text(l10n.retry),
+                        child: Text(l10n.retryButton),
                       ),
                     ],
                   ),

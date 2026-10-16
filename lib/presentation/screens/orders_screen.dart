@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/domain/entities/order_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_app/domain/entities/order.dart';
 import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/presentation/blocs/orders/orders_bloc.dart';
-import 'package:flutter_app/presentation/blocs/orders/order_event.dart';
-import 'package:flutter_app/presentation/blocs/orders/order_state.dart';
+import 'package:flutter_app/presentation/blocs/orders/orders_event.dart';
+import 'package:flutter_app/presentation/blocs/orders/orders_state.dart';
 
 class OrdersScreen extends StatelessWidget {
-  
-  const OrdersScreen({super.key, this.onStartOrdering});
-  final VoidCallback? onStartOrdering;
+  const OrdersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +45,6 @@ class OrdersScreen extends StatelessWidget {
       ),
     );
   }
-
-
-
 
   Widget _buildEmptyOrders(BuildContext context) {
     final theme = Theme.of(context);
@@ -101,8 +97,7 @@ class OrdersScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              onPressed: onStartOrdering ??
-                  () => Navigator.of(context).maybePop(),
+              onPressed: () => Navigator.of(context).pop(),
               icon: const Icon(Icons.restaurant_menu),
               label: Text(l10n.startOrdering),
             ),
@@ -121,8 +116,6 @@ class _OrderCard extends StatelessWidget {
 
   const _OrderCard({required this.order});
 
-  String _paymentLabel(AppLocalizations l10n, String key) =>
-    key == 'cashOnDelivery' ? l10n.cashOnDelivery : l10n.creditDebitCard;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -271,7 +264,7 @@ class _OrderCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      l10n.itemQuantity(item.quantity),
+                      '×${item.quantity}',
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: colorScheme.onSurfaceVariant,
                       ),
@@ -311,7 +304,7 @@ class _OrderCard extends StatelessWidget {
             _summaryRow(
               context,
               l10n.paymentMethod,
-              _paymentLabel(l10n, order.paymentMethod),
+              order.paymentMethod,
             ),
 
             if (order.status == OrderStatus.pending ||
@@ -339,7 +332,6 @@ class _OrderCard extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _summaryRow(BuildContext context, String label, String value) {
     final theme = Theme.of(context);

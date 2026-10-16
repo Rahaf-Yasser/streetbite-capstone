@@ -232,7 +232,7 @@ class _BannerAddButton extends StatelessWidget {
           context.read<CartBloc>().add(AddToCartEvent(meal));
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(context.l10n.addedToCart),
+              content: Text(context.l10n.addedToCart(meal.name)),
               duration: const Duration(seconds: 1),
               behavior: SnackBarBehavior.floating,
             ),

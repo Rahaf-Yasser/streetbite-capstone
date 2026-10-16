@@ -1,15 +1,15 @@
-import 'package:flutter_app/domain/entities/user_entity.dart';
+import 'package:flutter_app/data/models/user_model.dart';
 
 abstract class AuthRepository {
-  Future<UserEntity?> getCurrentUser();
+  Future<UserModel?> getCurrentUser();
 
-  Future<UserEntity> signUp({
+  Future<UserModel> signUp({
     required String fullName,
     required String email,
     required String password,
   });
 
-  Future<UserEntity> logIn({
+  Future<UserModel> logIn({
     required String email,
     required String password,
   });

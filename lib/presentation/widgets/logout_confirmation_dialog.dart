@@ -11,7 +11,7 @@ Future<bool> showLogoutConfirmationDialog(BuildContext context) async {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(dialogContext).pop(false),
-          child: Text(l10n.cancel),
+          child: Text(l10n.cancelButton),
         ),
         TextButton(
           onPressed: () => Navigator.of(dialogContext).pop(true),

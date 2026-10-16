@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/core/navigation/fade_route.dart';
-import 'package:flutter_app/core/utils/auth_error_message.dart';
+import 'package:flutter_app/core/theme/app_theme.dart';
 import 'package:flutter_app/core/utils/validators.dart';
-import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/presentation/blocs/auth/auth_cubit.dart';
 import 'package:flutter_app/presentation/blocs/auth/auth_state.dart';
 import 'package:flutter_app/presentation/screens/main_shell.dart';
-import 'package:flutter_app/presentation/widgets/app_text_field.dart';
-import 'package:flutter_app/presentation/widgets/auth_form_scaffold.dart';
-import 'package:flutter_app/presentation/widgets/primary_button.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_app/l10n/app_localizations.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -24,6 +21,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
+  bool _hidePassword = true;
+  bool _hideConfirm = true;
 
   @override
   void dispose() {
@@ -44,7 +43,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-  /// Shows the success dialog, then fades to the main screen.
   Future<void> _showSuccessDialog() async {
     final l10n = AppLocalizations.of(context)!;
     await showDialog<void>(
@@ -77,56 +75,108 @@ class _SignUpScreenState extends State<SignUpScreen> {
         if (state is AuthSignUpSuccess) {
           _showSuccessDialog();
         } else if (state is AuthError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(authErrorMessage(state.type, state.message, l10n)),
-            ),
-          );
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
       builder: (context, state) {
-        return AuthFormScaffold(
-          title: l10n.signUpTitle,
-          formKey: _formKey,
-          children: [
-            AppTextField(
-              controller: _nameController,
-              label: l10n.fullNameLabel,
-              textCapitalization: TextCapitalization.words,
-              validator: (v) => Validators.fullName(v, l10n),
-            ),
-            const SizedBox(height: 16),
-            AppTextField(
-              controller: _emailController,
-              label: l10n.emailLabel,
-              keyboardType: TextInputType.emailAddress,
-              validator: (v) => Validators.email(v, l10n),
-            ),
-            const SizedBox(height: 16),
-            AppTextField(
-              controller: _passwordController,
-              label: l10n.passwordLabel,
-              isPassword: true,
-              validator: (v) => Validators.password(v, l10n),
-            ),
-            const SizedBox(height: 16),
-            AppTextField(
-              controller: _confirmController,
-              label: l10n.confirmPasswordLabel,
-              isPassword: true,
-              validator: (v) => Validators.confirmPassword(
-                v,
-                _passwordController.text,
-                l10n,
+        final isLoading = state is AuthLoading;
+
+        return Scaffold(
+          appBar: AppBar(backgroundColor: Colors.white),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(24),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      l10n.signUpTitle,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineMedium
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      controller: _nameController,
+                      textCapitalization: TextCapitalization.words,
+                      decoration:
+                          InputDecoration(labelText: l10n.fullNameLabel),
+                      validator: (v) => Validators.fullName(v, l10n),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      decoration: InputDecoration(labelText: l10n.emailLabel),
+                      validator: (v) => Validators.email(v, l10n),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _passwordController,
+                      obscureText: _hidePassword,
+                      decoration: InputDecoration(
+                        labelText: l10n.passwordLabel,
+                        suffixIcon: IconButton(
+                          icon: Icon(_hidePassword
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                          onPressed: () =>
+                              setState(() => _hidePassword = !_hidePassword),
+                        ),
+                      ),
+                      validator: (v) => Validators.password(v, l10n),
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _confirmController,
+                      obscureText: _hideConfirm,
+                      decoration: InputDecoration(
+                        labelText: l10n.confirmPasswordLabel,
+                        suffixIcon: IconButton(
+                          icon: Icon(_hideConfirm
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                          onPressed: () =>
+                              setState(() => _hideConfirm = !_hideConfirm),
+                        ),
+                      ),
+                      validator: (v) => Validators.confirmPassword(
+                        v,
+                        _passwordController.text,
+                        l10n,
+                      ),
+                    ),
+                    const SizedBox(height: 28),
+                    SizedBox(
+                      height: 52,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.primary,
+                          foregroundColor: Colors.white,
+                          shape: const StadiumBorder(),
+                        ),
+                        onPressed: isLoading ? null : _submit,
+                        child: isLoading
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : Text(l10n.signUpButton),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const SizedBox(height: 28),
-            PrimaryButton(
-              label: l10n.signUpButton,
-              isLoading: state is AuthLoading,
-              onPressed: _submit,
-            ),
-          ],
+          ),
         );
       },
     );

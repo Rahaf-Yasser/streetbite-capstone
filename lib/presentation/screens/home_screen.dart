@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:flutter_app/presentation/widgets/home/meal_grid_sliver.dart';
-import 'package:flutter_app/presentation/widgets/home/meal_search_bar.dart';
 import 'package:flutter_app/core/l10n/app_localizations_extension.dart';
+import 'package:flutter_app/domain/entities/meal.dart';
 import 'package:flutter_app/domain/usecases/get_categories.dart';
 import 'package:flutter_app/domain/usecases/get_meals.dart';
 import 'package:flutter_app/injection.dart';
@@ -19,6 +18,7 @@ import 'package:flutter_app/presentation/widgets/home/categories_section.dart';
 import 'package:flutter_app/presentation/widgets/home/home_error_view.dart';
 import 'package:flutter_app/presentation/widgets/home/home_loading_view.dart';
 import 'package:flutter_app/presentation/widgets/home/hot_offers_section.dart';
+import 'package:flutter_app/presentation/widgets/home/meal_grid_card.dart';
 import 'package:flutter_app/presentation/widgets/home/section_header.dart';
 import 'package:flutter_app/presentation/widgets/profile_icon_button.dart';
 
@@ -198,7 +198,7 @@ class _HomeBody extends StatelessWidget {
       child: CustomScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
-          const SliverToBoxAdapter(child: MealSearchBar()),
+          const SliverToBoxAdapter(child: _SearchBar()),
           if (state.isSearching) ...[
             if (state.searchResults.isEmpty)
               SliverToBoxAdapter(
@@ -213,7 +213,7 @@ class _HomeBody extends StatelessWidget {
                 ),
               )
             else
-              MealGridSliver(meals: state.searchResults),
+              _MealGridSliver(meals: state.searchResults),
           ] else ...[
             const SliverToBoxAdapter(child: SizedBox(height: 8)),
             SliverToBoxAdapter(
@@ -247,7 +247,7 @@ class _HomeBody extends StatelessWidget {
                 onActionTap: () {},
               ),
             ),
-            MealGridSliver(meals: state.meals),
+            _MealGridSliver(meals: state.meals),
           ],
           if (state.isRefreshing)
             const SliverToBoxAdapter(
@@ -263,6 +263,98 @@ class _HomeBody extends StatelessWidget {
               ),
             ),
         ],
+      ),
+    );
+  }
+}
+
+class _MealGridSliver extends StatelessWidget {
+  final List<Meal> meals;
+
+  const _MealGridSliver({required this.meals});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+      sliver: SliverGrid(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 14,
+          crossAxisSpacing: 14,
+          childAspectRatio: 0.7,
+        ),
+        delegate: SliverChildBuilderDelegate(
+          (context, index) => MealGridCard(meal: meals[index]),
+          childCount: meals.length,
+        ),
+      ),
+    );
+  }
+}
+
+class _SearchBar extends StatefulWidget {
+  const _SearchBar();
+
+  @override
+  State<_SearchBar> createState() => _SearchBarState();
+}
+
+class _SearchBarState extends State<_SearchBar> {
+  final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onChanged(String value) {
+    setState(() {});
+    context.read<HomeCubit>().search(value);
+  }
+
+  void _clear() {
+    _controller.clear();
+    _onChanged('');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+      child: SearchBar(
+        controller: _controller,
+        onChanged: _onChanged,
+        backgroundColor: WidgetStateProperty.all(
+          theme.colorScheme.surfaceContainerHigh,
+        ),
+        elevation: const WidgetStatePropertyAll(0),
+        hintText: context.l10n.searchHint,
+        hintStyle: WidgetStateProperty.all(
+          TextStyle(color: theme.colorScheme.onSurfaceVariant),
+        ),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Icon(
+            Icons.search_rounded,
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+        trailing: [
+          if (_controller.text.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.close_rounded),
+              onPressed: _clear,
+            ),
+        ],
+        padding: const WidgetStatePropertyAll(
+          EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+        ),
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        ),
       ),
     );
   }

@@ -2,25 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_app/domain/entities/cart_item.dart';
 import 'package:flutter_app/presentation/blocs/cart/cart_event.dart';
 import 'package:flutter_app/presentation/blocs/cart/cart_state.dart';
-import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-
-  StreamSubscription<User?>? _authSub;
-  String? _currentUid;
-
   CartBloc() : super(const CartState()) {
     on<AddToCartEvent>(_onAddToCart);
     on<RemoveFromCartEvent>(_onRemoveFromCart);
     on<ClearCartEvent>(_onClearCart);
-        _currentUid = FirebaseAuth.instance.currentUser?.uid;
-    _authSub = FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user?.uid != _currentUid) {
-        _currentUid = user?.uid;
-        add(ClearCartEvent());
-      }
-    });  
   }
 
   void _onAddToCart(AddToCartEvent event, Emitter<CartState> emit) {
@@ -57,10 +44,5 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   void _onClearCart(ClearCartEvent event, Emitter<CartState> emit) {
     emit(const CartState(items: []));
-  }
-    @override
-  Future<void> close() {
-    _authSub?.cancel();
-    return super.close();
   }
 }

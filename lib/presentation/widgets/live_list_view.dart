@@ -39,7 +39,7 @@ class LiveListView<T> extends StatelessWidget {
             ),
             TextButton(
               onPressed: onRetry,
-              child: Text(l10n.retry),
+              child: Text(l10n.retryButton),
             ),
           ],
         );

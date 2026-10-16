@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter_app/domain/entities/auth_exception.dart';
-import 'package:flutter_app/domain/entities/user_entity.dart';
+import 'package:flutter_app/data/models/user_model.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
@@ -18,7 +17,7 @@ class AuthLoading extends AuthState {
 }
 
 class Authenticated extends AuthState {
-  final UserEntity user;
+  final UserModel user;
   const Authenticated(this.user);
 
   @override
@@ -26,7 +25,7 @@ class Authenticated extends AuthState {
 }
 
 class AuthSignUpSuccess extends AuthState {
-  final UserEntity user;
+  final UserModel user;
   const AuthSignUpSuccess(this.user);
 
   @override
@@ -38,10 +37,9 @@ class Unauthenticated extends AuthState {
 }
 
 class AuthError extends AuthState {
-  final AuthErrorType type;
-  final String? message;
-  const AuthError(this.type, [this.message]);
+  final String message;
+  const AuthError(this.message);
 
   @override
-  List<Object?> get props => [type, message];
+  List<Object?> get props => [message];
 }

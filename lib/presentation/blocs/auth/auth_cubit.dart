@@ -1,40 +1,16 @@
-import 'package:flutter_app/domain/entities/auth_exception.dart';
-import 'package:flutter_app/domain/usecases/get_current_user_usecase.dart';
-import 'package:flutter_app/domain/usecases/log_in_usecase.dart';
-import 'package:flutter_app/domain/usecases/log_out_usecase.dart';
-import 'package:flutter_app/domain/usecases/sign_up_usecase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_app/domain/repositories/auth_repository.dart';
 import 'package:flutter_app/presentation/blocs/auth/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  final GetCurrentUserUseCase _getCurrentUser;
-  final SignUpUseCase _signUp;
-  final LogInUseCase _logIn;
-  final LogOutUseCase _logOut;
+  final AuthRepository _repository;
 
-  AuthCubit({
-    required GetCurrentUserUseCase getCurrentUser,
-    required SignUpUseCase signUp,
-    required LogInUseCase logIn,
-    required LogOutUseCase logOut,
-  })  : _getCurrentUser = getCurrentUser,
-        _signUp = signUp,
-        _logIn = logIn,
-        _logOut = logOut,
-        super(const AuthInitial());
-
-  AuthError _toError(Object error) => error is AuthException
-      ? AuthError(error.type, error.message)
-      : const AuthError(AuthErrorType.unknown);
+  AuthCubit(this._repository) : super(const AuthInitial());
 
   Future<void> checkAuthStatus() async {
-    try {
-      final user = await _getCurrentUser();
-      emit(user == null ? const Unauthenticated() : Authenticated(user));
-    } catch (_) {
-      // If the session cannot be read, start from the Welcome screen.
-      emit(const Unauthenticated());
-    }
+    final user = await _repository.getCurrentUser();
+    emit(user == null ? const Unauthenticated() : Authenticated(user));
   }
 
   Future<void> signUp({
@@ -44,33 +20,33 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     emit(const AuthLoading());
     try {
-      final user = await _signUp(
+      final user = await _repository.signUp(
         fullName: fullName,
         email: email,
         password: password,
       );
       emit(AuthSignUpSuccess(user));
+    } on FirebaseAuthException catch (e) {
+      emit(AuthError(e.message ?? e.code));
     } catch (e) {
-      emit(_toError(e));
+      emit(AuthError(e.toString()));
     }
   }
 
   Future<void> logIn({required String email, required String password}) async {
     emit(const AuthLoading());
     try {
-      final user = await _logIn(email: email, password: password);
+      final user = await _repository.logIn(email: email, password: password);
       emit(Authenticated(user));
+    } on FirebaseAuthException catch (e) {
+      emit(AuthError(e.message ?? e.code));
     } catch (e) {
-      emit(_toError(e));
+      emit(AuthError(e.toString()));
     }
   }
 
   Future<void> logOut() async {
-    try {
-      await _logOut();
-      emit(const Unauthenticated());
-    } catch (e) {
-      emit(_toError(e));
-    }
+    await _repository.logOut();
+    emit(const Unauthenticated());
   }
 }

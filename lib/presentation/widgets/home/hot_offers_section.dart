@@ -148,7 +148,7 @@ class _DiscountBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: Text(
-        context.l10n.discountPercentOff(percent),
+        context.l10n.discountOff(percent),
         style: theme.textTheme.labelSmall?.copyWith(
           color: Colors.black,
           fontWeight: FontWeight.w800,
@@ -175,7 +175,7 @@ class _MiniAddButton extends StatelessWidget {
           context.read<CartBloc>().add(AddToCartEvent(meal));
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(context.l10n.addedToCart),
+              content: Text(context.l10n.addedToCart(meal.name)),
               duration: const Duration(seconds: 1),
               behavior: SnackBarBehavior.floating,
             ),

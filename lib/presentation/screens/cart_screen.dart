@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/domain/entities/order.dart';
+import 'package:flutter_app/presentation/blocs/orders/orders_bloc.dart';
+import 'package:flutter_app/presentation/blocs/orders/orders_event.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_app/domain/entities/cart_item.dart';
 import 'package:flutter_app/l10n/app_localizations.dart';
 import 'package:flutter_app/presentation/blocs/cart/cart_bloc.dart';
 import 'package:flutter_app/presentation/blocs/cart/cart_event.dart';
 import 'package:flutter_app/presentation/blocs/cart/cart_state.dart';
-import 'package:flutter_app/data/datasources/orders_cloud_datasource.dart';
-import 'package:flutter_app/domain/entities/order.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_app/injection.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -18,7 +17,7 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  String _selectedPaymentMethod = 'cashOnDelivery';
+  String _selectedPaymentMethod = 'Cash on Delivery';
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +103,7 @@ class _CartScreenState extends State<CartScreen> {
                             RadioListTile<String>(
                               title: Text(l10n.cashOnDelivery),
                               subtitle: Text(l10n.payWhenFoodArrives),
-                              value: 'cashOnDelivery',
+                              value: 'Cash on Delivery',
                               groupValue: _selectedPaymentMethod,
                               activeColor: colorScheme.primary,
                               secondary: Icon(
@@ -124,7 +123,7 @@ class _CartScreenState extends State<CartScreen> {
                             RadioListTile<String>(
                               title: Text(l10n.creditDebitCard),
                               subtitle: Text(l10n.fastSecureOnlinePayment),
-                              value: 'creditDebitCard',
+                              value: 'Credit Card',
                               groupValue: _selectedPaymentMethod,
                               activeColor: colorScheme.primary,
                               secondary: Icon(
@@ -171,13 +170,13 @@ class _CartScreenState extends State<CartScreen> {
                         _buildSummaryRow(
                           context,
                           l10n.subtotal,
-                          '${l10n.currencySymbol}${subtotal.toStringAsFixed(2)}',
+                          '\$${subtotal.toStringAsFixed(2)}',
                         ),
                         const SizedBox(height: 8),
                         _buildSummaryRow(
                           context,
                           l10n.deliveryFee,
-                          '${l10n.currencySymbol}${deliveryFee.toStringAsFixed(2)}',
+                          '\$${deliveryFee.toStringAsFixed(2)}',
                         ),
                         const SizedBox(height: 12),
                         Divider(color: colorScheme.outlineVariant),
@@ -185,7 +184,7 @@ class _CartScreenState extends State<CartScreen> {
                         _buildSummaryRow(
                           context,
                           l10n.totalAmount,
-                          '${l10n.currencySymbol}${grandTotal.toStringAsFixed(2)}',
+                          '\$${grandTotal.toStringAsFixed(2)}',
                           isBold: true,
                           highlightColor: colorScheme.primary,
                         ),
@@ -242,7 +241,7 @@ class _CartScreenState extends State<CartScreen> {
                     children: [
                       Text(
                         l10n.placeOrderWithTotal(
-                          '${l10n.currencySymbol}${grandTotal.toStringAsFixed(2)}',
+                          '\$${grandTotal.toStringAsFixed(2)}',
                         ),
                         style: const TextStyle(
                           fontSize: 16,
@@ -261,7 +260,6 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-
   // Empty Cart View
   Widget _buildEmptyCart(BuildContext context) {
     final theme = Theme.of(context);
@@ -277,7 +275,7 @@ class _CartScreenState extends State<CartScreen> {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: colorScheme.primaryContainer.withOpacity(  0.4),
+                color: colorScheme.primaryContainer.withOpacity(0.4),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -381,13 +379,9 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-Future<void> _handleCheckout(BuildContext context, double total) async {
+void _handleCheckout(BuildContext context, double total) {
   final l10n = AppLocalizations.of(context)!;
-  final messenger = ScaffoldMessenger.of(context);
-  final colorScheme = Theme.of(context).colorScheme;
-  final cartBloc = context.read<CartBloc>();
-  final cartState = cartBloc.state;
-  final uid = FirebaseAuth.instance.currentUser?.uid;
+  final cartState = context.read<CartBloc>().state;
 
   const double deliveryFee = 2.50;
   final order = Order(
@@ -396,34 +390,22 @@ Future<void> _handleCheckout(BuildContext context, double total) async {
     subtotal: cartState.totalPrice,
     deliveryFee: deliveryFee,
     total: total,
-    paymentMethod: _selectedPaymentMethod, // a key, translated when displayed
+    paymentMethod: _selectedPaymentMethod == 'Cash on Delivery'
+        ? l10n.cashOnDelivery
+        : l10n.creditDebitCard,
     status: OrderStatus.pending,
     createdAt: DateTime.now(),
   );
 
-  try {
-    if (uid == null) throw StateError('No signed-in user');
-    await getIt<OrdersCloudDataSource>().saveOrder(uid, order);
-  } catch (_) {
-    messenger.showSnackBar(
-      SnackBar(
-        backgroundColor: colorScheme.error,
-        content: Text(l10n.orderSaveError),
-      ),
-    );
-    return;
-  }
+  context.read<OrdersBloc>().add(PlaceOrderEvent(order));
+  context.read<CartBloc>().add(ClearCartEvent());
 
-  cartBloc.add(ClearCartEvent());
-
-  final paymentLabel = _selectedPaymentMethod == 'cashOnDelivery'
-      ? l10n.cashOnDelivery
-      : l10n.creditDebitCard;
-
-  messenger.showSnackBar(
+  ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      backgroundColor: colorScheme.primary,
-      content: Text(l10n.orderPlacedSuccessfully(paymentLabel)),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      content: Text(
+        l10n.orderPlacedSuccessfully(order.paymentMethod),
+      ),
     ),
   );
 }
@@ -491,7 +473,7 @@ class _CartItemTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     l10n.priceEach(
-                      '${l10n.currencySymbol}${item.meal.price.toStringAsFixed(2)}',
+                      '\$${item.meal.price.toStringAsFixed(2)}',
                     ),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
@@ -499,7 +481,7 @@ class _CartItemTile extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    '${l10n.currencySymbol}${item.totalPrice.toStringAsFixed(2)}',
+                    '\$${item.totalPrice.toStringAsFixed(2)}',
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: colorScheme.primary,

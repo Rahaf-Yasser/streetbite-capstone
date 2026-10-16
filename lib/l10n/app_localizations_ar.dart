@@ -1,10 +1,7 @@
-// ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
-// ignore_for_file: type=lint
-
-/// The translations for Arabic (`ar`).
 class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
@@ -15,7 +12,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get welcomeHeadline => 'الطعام والبقالة يصلك إلى بابك';
 
   @override
-  String get welcomeSubtext => 'أنشئ حسابًا أو سجّل الدخول للبدء';
+  String get welcomeSubtext => 'أنشئ حساباً أو سجّل الدخول للبدء';
 
   @override
   String get signUpButton => 'إنشاء حساب';
@@ -27,7 +24,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signUpTitle => 'إنشاء حساب';
 
   @override
-  String get logInTitle => 'مرحبًا بعودتك';
+  String get logInTitle => 'مرحباً بعودتك';
 
   @override
   String get languageToggle => 'English';
@@ -78,6 +75,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get continueButton => 'متابعة';
 
   @override
+  String homeWelcome(String name) {
+    return 'مرحباً، $name!';
+  }
+
+  @override
   String get profileTooltip => 'الملف الشخصي';
 
   @override
@@ -93,7 +95,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get biometricNotEnrolled => 'لا توجد بصمة مسجلة على هذا الجهاز. أضف واحدة من إعدادات الهاتف.';
 
   @override
-  String get biometricLockedOut => 'محاولات كثيرة جدًا. حاول لاحقًا.';
+  String get biometricLockedOut => 'محاولات كثيرة جداً. حاول لاحقاً.';
 
   @override
   String get biometricError => 'حدث خطأ في المصادقة بالبصمة. حاول مرة أخرى.';
@@ -114,6 +116,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get deviceInfoError => 'تعذّر قراءة معلومات الجهاز.';
 
   @override
+  String get retryButton => 'إعادة المحاولة';
+
+  @override
   String get settingsLabel => 'الإعدادات';
 
   @override
@@ -126,16 +131,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get languageLabel => 'اللغة';
 
   @override
-  String get comingSoonMessage => 'هذا القسم سيتوفر قريبًا.';
+  String get comingSoonMessage => 'هذا القسم سيتوفر قريباً.';
 
   @override
-  String get okButton => 'حسنًا';
+  String get okButton => 'حسناً';
 
   @override
   String get logOutLabel => 'تسجيل الخروج';
 
   @override
   String get logOutConfirmMessage => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
+
+  @override
+  String get cancelButton => 'إلغاء';
 
   @override
   String get navHome => 'الرئيسية';
@@ -179,6 +187,15 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get orderStatusPending => 'قيد الانتظار';
+
+  @override
+  String get orderStatusDelivered => 'تم التوصيل';
+
+  @override
+  String get orderStatusCancelled => 'ملغي';
+
+  @override
   String get deliverTo => 'التوصيل إلى';
 
   @override
@@ -186,6 +203,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get searchHint => 'طعام، بقالة، إلخ.';
+
+  @override
+  String get categoriesTitle => 'التصنيفات';
 
   @override
   String get popularTitle => 'الأكثر شهرة قريبًا منك';
@@ -200,21 +220,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get viewAll => 'عرض الكل';
 
   @override
-  String get addedToCart => 'تمت الإضافة إلى السلة';
-
-  @override
   String cartSummary(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: 'السلة: $count عنصر',
-      many: 'السلة: $count عنصرًا',
-      few: 'السلة: $count عناصر',
-      two: 'السلة: عنصران',
-      one: 'السلة: عنصر واحد',
-      zero: 'السلة فارغة',
-    );
-    return '$_temp0';
+    return 'السلة: $count عناصر';
   }
 
   @override
@@ -231,6 +238,11 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get noSearchResults => 'لا توجد وجبات مطابقة لبحثك';
+
+  @override
+  String discountOff(int percent) {
+    return '$percent٪ خصم';
+  }
 
   @override
   String deliveryMinutes(int minutes) {
@@ -256,13 +268,37 @@ class AppLocalizationsAr extends AppLocalizations {
   String get loadVendorsError => 'تعذر تحميل البائعين';
 
   @override
+  String get mealDetails => 'تفاصيل الوجبة';
+
+  @override
+  String get categoryLabel => 'التصنيف';
+
+  @override
+  String get areaLabel => 'بلد المنشأ';
+
+  @override
+  String get instructionsLabel => 'التعليمات';
+
+  @override
+  String get comingSoonFullDetails => 'التفاصيل الكاملة ستتوفر قريبًا';
+
+  @override
   String get toggleTheme => 'تبديل السمة';
 
   @override
   String get currencySymbol => '\$';
 
   @override
-  String mealAddedToCart(String mealName) {
+  String get selectLanguage => 'اختر اللغة';
+
+  @override
+  String get english => 'الإنجليزية';
+
+  @override
+  String get arabic => 'العربية';
+
+  @override
+  String addedToCart(String mealName) {
     return 'تمت إضافة $mealName إلى السلة!';
   }
 
@@ -356,9 +392,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get noOrdersYet => 'لا توجد طلبات بعد';
 
   @override
-  String get orderSaveError => 'تعذّر إتمام طلبك. حاول مرة أخرى.';
-
-  @override
   String get noOrdersMessage => 'لم تقم بأي طلب بعد. ابدأ باستكشاف القائمة!';
 
   @override
@@ -374,12 +407,12 @@ class AppLocalizationsAr extends AppLocalizations {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
-      other: '$count عنصر',
-      many: '$count عنصرًا',
-      few: '$count عناصر',
-      two: 'عنصران',
-      one: 'عنصر واحد',
       zero: 'لا عناصر',
+      one: 'عنصر واحد',
+      two: 'عنصران',
+      few: '$count عناصر',
+      many: '$count عنصرًا',
+      other: '$count عنصر',
     );
     return '$_temp0';
   }
@@ -410,24 +443,4 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get no => 'لا';
-
-  @override
-  String get addedToFavourites => 'تم الحفظ في المفضلة';
-
-  @override
-  String get removedFromFavourites => 'تمت الإزالة من المفضلة';
-
-  @override
-  String get favouriteError => 'تعذّر تحديث المفضلة. حاول مرة أخرى.';
-
-  @override
-  String itemQuantity(int count) {
-    return '×$count';
-  }
-
-  @override
-  String get authNetworkError => 'لا يوجد اتصال بالإنترنت. تحقق منه وحاول مرة أخرى.';
-
-  @override
-  String get authUnknownError => 'حدث خطأ ما. حاول مرة أخرى.';
 }
