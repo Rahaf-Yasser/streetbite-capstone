@@ -34,6 +34,7 @@
 - [Permissions & Configuration](#permissions--configuration)
 - [Localization & Theming](#localization--theming)
 - [Release & Distribution](#release--distribution)
+- [Testing](#testing)
 - [Project Structure](#project-structure)
 - [Team](#team)
 - [Beta Distribution & Release Information](#beta-distribution--release-information)
@@ -95,33 +96,33 @@ TheMealDB responses are cached locally in shared preferences as JSON-encoded mea
 
 ## Screenshots & App Preview
 
-The gallery below is reserved for genuine in-app screenshots. Each reference resolves automatically once the corresponding image is placed in the `screenshots/` directory at the project root.
+The gallery below is reserved for genuine in-app screenshots. Each reference resolves automatically once the corresponding image is placed in the `Screenshots/` directory at the project root.
 
 <p align="center">
-  <img src="screenshots/onboarding.png" alt="Onboarding and welcome screen" width="200" />
-  <img src="screenshots/login.png" alt="Login screen" width="200" />
-  <img src="screenshots/signup.png" alt="Sign up screen" width="200" />
+  <img src="Screenshots/English/Welcome_Splash Screen.jpeg" alt="Onboarding and welcome screen" width="200" />
+  <img src="Screenshots/4.jpeg" alt="Login screen" width="200" />
+  <img src="Screenshots/2.jpeg" alt="Sign up screen" width="200" />
 </p>
 <p align="center"><sub>Splash · Login · Sign Up</sub></p>
 
 <p align="center">
-  <img src="screenshots/home_en.png" alt="Home feed in English" width="200" />
-  <img src="screenshots/home_ar.png" alt="Home feed in Arabic (RTL)" width="200" />
-  <img src="screenshots/home_dark.png" alt="Home feed in dark mode" width="200" />
+  <img src="Screenshots/home en.jpeg" alt="Home feed in English" width="200" />
+  <img src="Screenshots/home ar.jpeg" alt="Home feed in Arabic (RTL)" width="200" />
+  <img src="Screenshots/Dark Mode/Home Screen.jpeg" alt="Home feed in dark mode" width="200" />
 </p>
 <p align="center"><sub>Home — English · Arabic (RTL) · Dark mode</sub></p>
 
 <p align="center">
-  <img src="screenshots/meal_details.png" alt="Meal details screen" width="200" />
-  <img src="screenshots/cart.png" alt="Cart screen" width="200" />
-  <img src="screenshots/orders.png" alt="Orders screen" width="200" />
+  <img src="Screenshots/meal2.jpeg" alt="Meal details screen" width="200" />
+  <img src="Screenshots/English/Cart.jpeg" alt="Cart screen" width="200" />
+  <img src="Screenshots/English/Orders.jpeg" alt="Orders screen" width="200" />
 </p>
 <p align="center"><sub>Meal details · Cart · Orders</sub></p>
 
 <p align="center">
-  <img src="screenshots/vendor_map.png" alt="Nearby vendors map" width="200" />
-  <img src="screenshots/profile.png" alt="Profile screen" width="200" />
-  <img src="screenshots/biometric.png" alt="Biometric profile unlock" width="200" />
+  <img src="Screenshots/English/Vendor Map.jpeg" alt="Nearby vendors map" width="200" />
+  <img src="Screenshots/English/Profile.jpeg" alt="Profile screen" width="200" />
+  <img src="Screenshots/English/Biometric Authentication.jpeg" alt="Biometric profile unlock" width="200" />
 </p>
 <p align="center"><sub>Nearby vendors map · Profile · Biometric unlock</sub></p>
 
@@ -231,11 +232,95 @@ Theming follows the same philosophy. A theme bloc tracks the current theme mode 
 ## Release & Distribution
 
 ### Build & Upload Process
-1.  **Formatting:** All Dart files were formatted using dart format ..
+1.  **Formatting:** All Dart files were formatted using `dart format .` .
 2.  **Cleanup:** Unused imports, code, and ARB entries were removed.
 3.  **Build:** The release APK was built using:
     ```bash
     flutter build apk --release
+    ```
+4.  **Distribute:** The APK was uploaded to Firebase App Distribution.
+5.  **Reviewers:** Two reviewers were added and successfully accepted the invitation.
+
+---
+
+## Testing
+
+StreetBite ships with a layered test suite that covers the domain layer through unit tests and the UI layer through widget tests. Tests are organized to mirror the shape of the source tree, so each file under test has a clearly-mapped counterpart under `test/`.
+
+### Test Suite at a Glance
+
+- **Unit tests** — pure Dart tests exercising every use case in the domain layer, the entity equality contracts, and the input validators. Repository dependencies are faked with `mocktail`, so no real network, Firestore, or device services are touched.
+- **Widget tests** — Flutter tests rendering real screens against mocked cubits. Each test pumps a screen with a shared harness that provides Material 3 theming, the app's localization delegates, and an optional set of `BlocProvider`s.
+
+The suite comprises **45 unit tests** and **27 widget tests**, spanning **21 test files**.
+
+### Test Directory Layout
+
+```
+test/
+├── unit/
+│   ├── usecases/
+│   │   ├── auth/             Login, sign-up, logout, current-user flows
+│   │   ├── cart/             Cart item arithmetic
+│   │   ├── orders/           Placing and watching orders
+│   │   ├── favourites/       Saving and watching favourites
+│   │   ├── meals/            Fetching meals, cached meals, vendors
+│   │   └── misc/             Biometrics, categories, device info, profile
+│   ├── entities/             Entity equality and payment-method behaviour
+│   ├── core/                 Validator tests
+│   └── helpers/              Shared test fixtures
+└── widget/
+    ├── login_screen_test.dart
+    ├── sign_up_screen_test.dart
+    ├── cart_screen_test.dart
+    ├── orders_screen_test.dart
+    ├── splash_screen_test.dart
+    ├── vendor_info_card_test.dart
+    └── helpers/pump_app.dart
+```
+
+### What Is Covered
+
+**Unit tests**
+
+- Every use case in `domain/usecases/` — argument forwarding, returned data, propagation of exceptions, and stream emission.
+- Entity equality for `UserEntity`, `Meal`, and `OrderEntity`, plus the `PaymentMethod` strategy (cash and card).
+- Cart arithmetic — `CartItem.totalPrice` and `copyWith` semantics.
+- Input validation — full name, email, password length, and password confirmation, exercised against a fake `AppLocalizations` so validation rules are checked in isolation.
+
+**Widget tests**
+
+- **Login** — initial render, empty-field errors, invalid-email error, short-password error, successful submission dispatches `logIn` with trimmed values, loading state disables the button and shows a spinner, error state surfaces a snackbar.
+- **Sign-up** — four-field render, first-name capitalization error, password mismatch error, successful submission, success dialog, loading state.
+- **Cart** — empty-cart state, item rendering with totals, clear-cart action visibility, payment-method default selection, and clear-cart confirmation dialog.
+- **Orders** — empty state, order card rendering with status and total, expansion to reveal items and cancel action, cancel confirmation dialog.
+- **Splash** — headline, subtext, and button rendering; `checkAuthStatus` is invoked on init.
+- **Vendor info card** — name, cuisine, city, and rating rendering; close action invokes the callback.
+
+### Running the Tests
+
+```bash
+# Run the entire suite
+flutter test
+
+# Unit tests only
+flutter test test/unit
+
+# Widget tests only
+flutter test test/widget
+
+# Coverage report (writes to coverage/lcov.info)
+flutter test --coverage
+```
+
+### Test Results
+
+The suite runs green across both layers, confirming that every use case, entity, and screen under test behaves as expected.
+
+<p align="center">
+  <img src="Screenshots/all tests passed" alt="Flutter test output showing all unit and widget tests passing" width="600" />
+</p>
+<p align="center"><sub>Full suite passing — 45 unit tests and 27 widget tests</sub></p>
 
 ---
 
@@ -290,6 +375,41 @@ Each member contributed across design, engineering, and product decisions, shapi
 ## Beta Distribution & Release Information
 
 StreetBite is built for iOS and Android. This section is reserved for distribution material — Firebase App Distribution builds, reviewer lists, and store listings.
+
+### Build & Release Artifacts
+
+The release pipeline starts with a clean `flutter build apk --release` run, producing a signed release APK in the build outputs directory. The screenshots below capture the build success line, the produced APK file, and its location on disk.
+
+<p align="center">
+  <img src="Screenshots/Firebase App Distribution/APK build success.png" alt="Release APK build success output in the terminal" width="320" />
+  <img src="Screenshots/Firebase App Distribution/apk file.png" alt="Built release APK file in the build outputs folder" width="320" />
+  <img src="Screenshots/Firebase App Distribution/apk file 2.png" alt="APK file path and size in the terminal" width="320" />
+</p>
+<p align="center"><sub>Release build output · APK artifact · APK path & size</sub></p>
+
+### Firebase Console — Releases, Reviewers & Invitations
+
+Once the APK is produced, it is uploaded to Firebase App Distribution. The console's Releases tab tracks every uploaded build alongside tester statistics — invitations sent, accepted, downloads, and feedback. Reviewers are managed from a dedicated panel, and individual testers can be invited to a specific release from the invite dialog. The acceptance and download counters update in real time as testers engage with the build.
+
+<p align="center">
+  <img src="Screenshots/Firebase App Distribution/Screen Shot 2026-10-16 at 4.11.24 PM.png" alt="Firebase App Distribution releases dashboard for StreetBite" width="320" />
+  <img src="Screenshots/Firebase App Distribution/Reviewers.png" alt="Reviewers and testers list in Firebase App Distribution" width="320" />
+  <img src="Screenshots/Firebase App Distribution/Invite.png" alt="Inviting a reviewer to a release" width="320" />
+  <img src="Screenshots/Firebase App Distribution/Invitation Accepted and Downloaded.png" alt="Release with tester acceptance and download stats" width="320" />
+</p>
+<p align="center"><sub>Releases dashboard · Reviewers list · Invite tester · Acceptance & download stats</sub></p>
+
+### Tester Experience — Invitation & Installation
+
+On the tester side, the flow begins with an invitation email that deep-links into the Firebase App Distribution web view, where the tester consents to data sharing and accepts the invitation. Once accepted, the available releases list appears, and the tester can start the download of the latest build. The progress is shown inline until the APK is fully fetched and ready to install.
+
+<p align="center">
+  <img src="Screenshots/Firebase App Distribution/Invitation Sent.jpeg" alt="Tester invitation and data-sharing consent page" width="200" />
+  <img src="Screenshots/Firebase App Distribution/Accept Invitation.jpeg" alt="Available releases after the tester accepts the invitation" width="200" />
+  <img src="Screenshots/Firebase App Distribution/Start Downlowding.jpeg" alt="Tester starting the app download" width="200" />
+  <img src="Screenshots/Firebase App Distribution/Downloading.jpeg" alt="Download progress on the tester device" width="200" />
+</p>
+<p align="center"><sub>Invitation & consent · Available releases · Start download · Download in progress</sub></p>
 
 ---
 
